@@ -1,0 +1,13 @@
+<!--Artista + boton-->
+    <tr>
+     <?php 
+    foreach (explode(',', $i[1], -1) as $s) { ?>
+      <th>Artista Creador</th>
+      <th><?php echo "</td><td>$s[0]</td>" ?></th>
+      <th></form>
+          <form action="artista_unico.php" method="post">
+          <input type="submit" name="submit[<?php echo $id_artista;?>]" value="Ver Artista" id=<?php echo $id_artista;?>>
+      </form></th>
+    <?php } ?>
+    </tr>
+    <!-- termino artista-->

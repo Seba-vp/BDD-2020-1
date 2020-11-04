@@ -1,0 +1,51 @@
+### Crear Tablas ###
+
+CREATE TABLE Usuarios(uid INT PRIMARY KEY, nombre VARCHAR, username VARCHAR,correo VARCHAR,udireccion VARCHAR, password VARCHAR);
+CREATE TABLE Paises(pid INT PRIMARY KEY,nombre VARCHAR, ptelefono VARCHAR);
+CREATE TABLE Ciudades(cid INT PRIMARY KEY, pid INT REFERENCES Paises(pid), nombre VARCHAR);
+CREATE TABLE Viajes(vid INT PRIMARY KEY,oid INT REFERENCES Ciudades(cid),did INT REFERENCES Ciudades(cid),hora TIME,duracion INT,medio VARCHAR,vprecio INT,capacidad INT);
+CREATE TABLE Tickets(tid INT PRIMARY KEY,uid INT REFERENCES Usuarios(uid),vid INT REFERENCES Viajes(vid),asiento INT,f_compra TIMESTAMP WITHOUT TIME ZONE,f_viaje DATE);
+CREATE TABLE Hoteles(hid INT PRIMARY KEY,cid INT REFERENCES Ciudades(cid),hdireccion VARCHAR,htelefono VARCHAR,hprecio INT, nombre VARCHAR);
+CREATE TABLE Reservas(rid INT PRIMARY KEY,hid INT REFERENCES Hoteles(hid),uid INT REFERENCES Usuarios(uid),inicio DATE,fin DATE);
+
+### Cargar Datos ###
+
+\copy Usuarios FROM 'Usuarios.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+\copy Paises FROM 'Paises.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+\copy Ciudades FROM 'Ciudades.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+\copy Viajes FROM 'Viajes.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+\copy Tickets FROM 'Tickets.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+\copy Hoteles FROM 'Hoteles.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+\copy Reservas FROM 'Reservas.csv' DELIMITER ',' CSV HEADER ENCODING 'latin1';
+
+### Coregir ortografía ###
+
+UPDATE Viajes SET medio='Avión' WHERE medio LIKE '%Avi%';
+UPDATE Paises SET nombre='Bélgica' WHERE nombre LIKE 'B%';
+UPDATE Ciudades SET nombre='París' WHERE nombre LIKE 'P%';
+UPDATE Ciudades SET nombre='Milán' WHERE nombre LIKE 'M%';
+
+UPDATE Viajes SET medio='Avion' WHERE medio LIKE '%Avi%';
+UPDATE Paises SET nombre='Belgica' WHERE nombre LIKE 'B%';
+UPDATE Ciudades SET nombre='Paris' WHERE nombre LIKE 'P%';
+UPDATE Ciudades SET nombre='Milan' WHERE nombre LIKE 'M%';
+
+### Borrar Datos ###
+
+DELETE FROM Reservas;
+DELETE FROM Hoteles;
+DELETE FROM Tickets;
+DELETE FROM Viajes;
+DELETE FROM Ciudades;
+DELETE FROM Paises;
+DELETE FROM Usuarios;
+
+### Eliminar Tablas ###
+
+DROP TABLE Reservas;
+DROP TABLE Hoteles;
+DROP TABLE Tickets;
+DROP TABLE Viajes;
+DROP TABLE Ciudades;
+DROP TABLE Paises;
+DROP TABLE Usuarios;
